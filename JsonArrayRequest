@@ -10,3 +10,4 @@ String url = myUrl + "?user=user&name=name"; 이런식으로 여러개도 post �
 
 <PHP>
 $user = $_GET['user'];
+ 
