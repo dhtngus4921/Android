@@ -1,0 +1,12 @@
+<Volley> JsonArrayRequest 요청 시 매개변수를 포함해서 POST 하는 방법 
+
+- 원래 방법은 JsonArrayRequest jsonRequest에 JSONArray를 포함하여 원하는 매개변수를 POST하는 방식이지만, PHP 파일에서 매개변수가 받아지지 않는 문제가 발생..
+
+
+- 해결방법
+URL에 매개변수를 포함하여 POST하고 PHP에서 GET
+
+String url = myUrl + "?user=user&name=name"; 이런식으로 여러개도 post 가능
+
+<PHP>
+$user = $_GET['user'];
