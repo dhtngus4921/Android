@@ -41,3 +41,5 @@ Korean의 경우 Text Recognition v2를 사용해야 함.
                                     }
                                 });
             }
+
+- tesseract과  한국어 인식률이 매우 좋음.
