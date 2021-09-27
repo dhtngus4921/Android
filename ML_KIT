@@ -1,0 +1,43 @@
+firebase ml_kit
+
+Korean의 경우 Text Recognition v2를 사용해야 함.
+
+사용 방법
+1. implementation 'com.google.mlkit:text-recognition-korean:16.0.0-beta1'
+
+2. TextRecognizer recognizer = TextRecognition.getClient(new KoreanTextRecognizerOptions.Builder().build()); //recognition / script library 선언
+
+3. InputImage image = InputImage.fromBitmap(testImage, rotationDgree); //이미지를 bitmap으로 가져와 InputImage에 저장
+
+4. Task<Text> result =
+                        recognizer.process(image)
+                                .addOnSuccessListener(new OnSuccessListener<Text>() {
+                                    @Override
+                                    public void onSuccess(@NonNull @NotNull Text visionText) {
+                                        for(Text.TextBlock block:visionText.getTextBlocks()){
+                                            text = block.getText();
+                                            Point[] blockCornerPoints = block.getCornerPoints();
+                                            Rect blockFrame = block.getBoundingBox();
+                                            for(Text.Line line : block.getLines()){
+                                                String lineText = line.getText();
+                                                Point[] lineornerPoints = line.getCornerPoints();
+                                                Rect lineFrame = line.getBoundingBox();
+                                                System.out.println(lineText);
+                                                for(Text.Element element : line.getElements()){
+                                                    String elementText = element.getText();
+                                                    Point[] elementCornerPoints = element.getCornerPoints();
+                                                    Rect elementFrame = element.getBoundingBox();
+                                                    //나눠진 블록단위에 포함된 text를 출력
+                                                    System.out.println(elementText);
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull @NotNull Exception e) {
+                                        System.out.println("이미지 인식 실패");
+                                    }
+                                });
+            }
