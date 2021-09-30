@@ -1,0 +1,48 @@
+takePicture(){
+   if(file == null){
+            file = createFile();
+        }
+
+        Uri fileUri = FileProvider.getUriForFile(this, "org.techtown.capture.intent.fileprovider", file);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        if(intent.resolveActivity(getPackageManager())!=null){
+            startActivityForResult(intent, CAMERA_RESULT_CODE);
+        }
+        //단말 내부 camera intent
+    }
+}
+public File createFile(){
+        String filename = "capture.jpg";
+        File storageDir = Environment.getExternalStorageDirectory();
+        File output = new File(storageDir, filename);
+        return output;
+        //파일 생성
+}
+
+ @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+
+      if(resultCode == CAMERA_RESULT_CODE && resultCode == RESULT_OK){
+          BitmapFactory.Options options = new BitmapFactory.Options();
+          options.inSampleSize = 8;
+          Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+          //사진을 찍고 bitmap으로 전환 후 ocr 실행
+          image = InputImage.fromBitmap(bitmap, 0);
+          getText(image);
+      }
+  }
+    
+    
+- build.grandle(Module:app)
+allprojects {
+    repositories {
+        maven{ url 'https://jitpack.io' }
+    }
+}
+- Build Failed 오류 발생 시
+<grandle.properties>
+android.enableJetifier = true 추가
+
+    
